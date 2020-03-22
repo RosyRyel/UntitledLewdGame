@@ -1,0 +1,155 @@
+body{
+    background-color: #020020;
+}
+button{opacity: 0.8;}
+
+#UntitledProjectGame{
+    width: 100%;
+    height: 98%;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    grid-template-rows: .1fr 1fr .2fr;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    overflow: hidden;
+    align-content: center;
+}
+
+.gridobject{border: solid rgb(37, 37, 37); background-color: #795200;}
+#GameHeader{grid-area: 1 / 1 / 2 / 4;}
+
+.HeaderButton{margin:3px; border:solid black; border-width: 2px;position: relative;display: inline;z-index: 2;min-width: 0%;min-height: 0%;}
+#GameLeft{grid-area: 2 / 1 / 4 / 2;}
+#GamePrimary{grid-area: 2 / 2 / 3 / 3;
+    padding:1%;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 15px;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+#GameRight{grid-area: 2 / 3 / 3 / 4;
+align-content: center;}
+#GameFooter{grid-area: 3 / 2 / 4 / 4;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    padding: 0px;}
+    .buttongrid{margin:3px; border:solid black; border-width: 2px;position: relative;display: inline;z-index: 2;border-radius: 15%;}
+    .button1 { grid-area: 1 / 1 / 2 / 2; }
+    .button2 { grid-area: 1 / 2 / 2 / 3; }
+    .button3 { grid-area: 1 / 3 / 2 / 4; }
+    .button4 { grid-area: 1 / 4 / 2 / 5; }
+    .button5 { grid-area: 1 / 5 / 2 / 6; }
+    .button6 { grid-area: 1 / 6 / 2 / 7; }
+    .button7 { grid-area: 1 / 7 / 2 / 8; }
+    .button8 { grid-area: 2 / 1 / 3 / 2; }
+    .button9 { grid-area: 2 / 2 / 3 / 3; }
+    .button10 { grid-area: 2 / 3 / 3 / 4; }
+    .button11 { grid-area: 2 / 4 / 3 / 5; }
+    .button12 { grid-area: 2 / 5 / 3 / 6; }
+    .button13 { grid-area: 2 / 6 / 3 / 7; }
+    .button14 { grid-area: 2 / 7 / 3 / 8; }
+    .button15 { grid-area: 3 / 1 / 4 / 2; }
+    .button16 { grid-area: 3 / 2 / 4 / 3; }
+    .button17 { grid-area: 3 / 3 / 4 / 4; }
+    .button18 { grid-area: 3 / 4 / 4 / 5; }
+    .button19 { grid-area: 3 / 5 / 4 / 6; }
+    .button20 { grid-area: 3 / 6 / 4 / 7; }
+    .button21 { grid-area: 3 / 7 / 4 / 8; }
+
+.BarHolder{margin: 1%;width: 95%;height:5%;border: solid rgb(37, 37, 37); background-color: darkslategray; overflow:hidden;}
+.HPBarCurrent{width:100%;height:100%;background-color: crimson;transition:500ms cubic-bezier(.5,.7,.7,1.2);opacity: 40%;color: #FFFFFF;}
+.SPBarCurrent{width:100%;height:100%;background-color: green;transition:500ms cubic-bezier(.5,.7,.7,1.2);opacity: 40%;color: #FFFFFF}
+.LPBarCurrent{width:0%;height:100%;background-color: magenta;transition:500ms cubic-bezier(.5,.7,.7,1.2); opacity: 40%;color: #FFFFFF}
+.StatHolder {
+    margin: 1%;
+    display: grid;
+    grid-template-columns: .2fr 1fr;
+    grid-template-rows: repeat(8, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 95%;
+    border: solid black;
+    }
+    .Stat{
+        border: solid 1px black;
+        text-align: center;
+        text-justify: distribute;
+        position: relative;
+        display: inline-block;
+    }
+    #VIGText { grid-area: 1 / 1 / 2 / 2; }
+    #VIG { grid-area: 1 / 2 / 2 / 3; }
+    #THWText { grid-area: 2 / 1 / 3 / 2; }
+    #THW { grid-area: 2 / 2 / 3 / 3; }
+    #DEXText { grid-area: 3 / 1 / 4 / 2; }
+    #DEX { grid-area: 3 / 2 / 4 / 3; }
+    #SENText { grid-area: 4 / 1 / 5 / 2; }
+    #SEN { grid-area: 4 / 2 / 5 / 3; }
+    #WILText { grid-area: 5 / 1 / 6 / 2; }
+    #WIL { grid-area: 5 / 2 / 6 / 3; }
+    #AURText { grid-area: 6 / 1 / 7 / 2; }
+    #AUR { grid-area: 6 / 2 / 7 / 3; }
+    #ACUText { grid-area: 7 / 1 / 8 / 2; }
+    #ACU { grid-area: 7 / 2 / 8 / 3; }
+    #LIBText { grid-area: 8 / 1 / 9 / 2; }
+    #LIB { grid-area: 8 / 2 / 9 / 3; }
+
+    .tooltip {
+        visibility: hidden;
+        width: 100%;
+        background-color: #795200;
+        color: white;
+        position: absolute;
+        text-align: center; 
+        z-index: 2;
+        bottom: 100%;
+        left: 0;
+        margin-left: auto;
+        opacity: 0;
+        transition: opacity .5s;
+      }
+      .tooltiptext{
+        border: #020020 1px solid;
+        border-radius: 10%;
+      }
+      .Stat:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+        width:500%;
+      }
+      #VIGText:hover .tooltip{
+        width:230%;
+      }
+      button:hover .tooltip {
+        visibility: visible;
+        bottom: 140%;
+        opacity: 1;
+      }
+      button:active {
+        transition: background-color .05s;
+        transition: transform .05s;
+        background-color: gray;
+        transform: translate(1%,5%) ;
+      }
+
+      #EnemyImage{
+        max-width: 50%;
+        max-height: 50%;
+        padding:25%;
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+      /* button .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      } */
+
