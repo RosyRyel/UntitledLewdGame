@@ -1,5 +1,6 @@
 function TrueReset(){ResetButtons();EraseMainWindow();}
 function ChangeRoom(X,Y){
+    StateUpdate();
     PrevX= Player.coords[0];
     PrevY= Player.coords[1];
     try{
@@ -14,10 +15,12 @@ function ChangeRoom(X,Y){
 function MoveDirection(xoffset,yoffset){
     X = Player.coords[0];
     Y = Player.coords[1];
+    TimeAddSec(6);
     ChangeRoom(X+xoffset,Y+yoffset)
 }
 
 function ChangePlane(plane, X, Y){
+    StateUpdate();
     PreviousPlane = Player.plane;
     PrevX= Player.coords[0];
     PrevY= Player.coords[1];
@@ -32,7 +35,7 @@ function ChangePlane(plane, X, Y){
     }
 }
 
-new Event("CurrentRoomEvent", function(){document.getElementById("GameRight").innerHTML ="";EventMap.get(PlaneMap.get(Player.plane)[Player.coords[0]][Player.coords[1]].event)();})
+new Event("CurrentRoomEvent", function(){StateUpdate();document.getElementById("GameRight").innerHTML ="";EventMap.get(PlaneMap.get(Player.plane)[Player.coords[0]][Player.coords[1]].event)();})
 new Event("MoveNorthwest", function(){MoveDirection(-1,1)})
 new Event( "MoveNorth", function(){MoveDirection(0,1)})
 new Event("MoveNortheast", function(){MoveDirection(1,1)})
@@ -61,39 +64,105 @@ if (southwest){SouthwestButton()}; if (south){SouthButton()}; if (southeast){Sou
 new Event("InventoryMenuButton", InventoryMenu);
 function InventoryButton(){EditButton("button7", "InventoryMenuButton", "Look in inventory", "Browse what you have on your person")}
 
+function StandardButtons(){
+    InventoryButton();
+    LookSelfButton();
+}
 
-
+function GetWeaponName(nam){
+    switch(nam){
+        case 0:
+            ranarray = [];
+            if(Player.equips.holdoutmelee!=""){ranarray.push(Player.equips.holdoutmelee)}
+            if(Player.equips.PDmelee!=""){ranarray.push(Player.equips.PDmelee)}
+            if(Player.equips.assaultmelee!=""){ranarray.push(Player.equips.assaultmelee)}
+            if(Player.equips.heavymelee!=""){ranarray.push(Player.equips.heavymelee)}
+            if(Player.equips.holdoutranged!=""){ranarray.push(Player.equips.holdoutranged)}
+            if(Player.equips.PDranged!=""){ranarray.push(Player.equips.PDranged)}
+            if(Player.equips.assaultranged!=""){ranarray.push(Player.equips.assaultranged)}
+            if(Player.equips.heavyranged!=""){ranarray.push(Player.equips.heavyranged)}
+            if(ranarray.length==0){return "NULL"}
+            return ranarray[getRandInt(0,ranarray.length)]
+        case 1:
+            return Player.equips.holdoutmelee
+        case 2:
+            return Player.equips.PDmelee
+        case 3:
+            return Player.equips.assaultmelee
+        case 4:
+            return Player.equips.heavymelee
+        case 5:
+            return Player.equips.holdoutranged
+        case 6:
+            return Player.equips.PDranged
+        case 7:
+            return Player.equips.assaultranged
+        case 8:
+            return Player.equips.heavyranged
+        default:
+            return "NULL"
+        }
+}
 
 function AttackWeaponChoice(){
     ResetButtons();
     if(Player.equips.holdoutmelee!=""){
-        EditButton("button1", function(){ResetButtons();choosePartAttack(WeaponMap.get(Player.equips.holdoutmelee).attack(),WeaponMap.get(Player.equips.holdoutmelee).attackdescription)},Player.equips.holdoutmelee, "Dummy Hovertext");
+        EditButton("button1", function(){
+            ResetButtons();
+            choosePartAttack(Player.equips.holdoutmelee,WeaponMap.get(Player.equips.holdoutmelee).attack(),WeaponMap.get(Player.equips.holdoutmelee).attackdescription)
+        },Player.equips.holdoutmelee, "Dummy Hovertext");
     }
     if(Player.equips.PDmelee!=""){
-        EditButton("button2", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.PDmelee).attack())},Player.equips.PDmelee, "Dummy Hovertext");
+        EditButton("button2", function(){ResetButtons();
+            choosePartAttack(Player.equips.PDmelee,WeaponMap.get(Player.equips.PDmelee).attack(),WeaponMap.get(Player.equips.PDmelee).attackdescription)
+        },Player.equips.PDmelee, "Dummy Hovertext");
     }
     if(Player.equips.assaultmelee!=""){
-        EditButton("button3", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.assaultmelee).attack())},Player.equips.holdoutmelee, "Dummy Hovertext");
+        EditButton("button3", function(){ResetButtons();
+            choosePartAttack(Player.equips.assaultmelee,WeaponMap.get(Player.equips.assaultmelee).attack(),WeaponMap.get(Player.equips.assaultmelee).attackdescription)
+        },Player.equips.assaultmelee, "Dummy Hovertext");
     }
     if(Player.equips.heavymelee!=""){
-        EditButton("button4", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.heavymelee).attack())},Player.equips.heavymelee, "Dummy Hovertext");
+        EditButton("button4", function(){ResetButtons();
+            choosePartAttack(Player.equips.heavymelee,WeaponMap.get(Player.equips.heavymelee).attack(),WeaponMap.get(Player.equips.heavymelee).attackdescription)
+        },Player.equips.heavymelee, "Dummy Hovertext");
     }
     if(Player.equips.holdoutranged!=""){
-        EditButton("button9", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.holdoutranged).attack())},Player.equips.holdoutranged, "Dummy Hovertext");
+        EditButton("button8", function(){ResetButtons();
+            choosePartAttack(Player.equips.holdoutranged,WeaponMap.get(Player.equips.holdoutranged).attack(),WeaponMap.get(Player.equips.holdoutranged).attackdescription)
+        },Player.equips.holdoutranged, "Dummy Hovertext");
     }
     if(Player.equips.PDranged!=""){
-        EditButton("button10", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.PDranged).attack())},Player.equips.PDranged, "Dummy Hovertext");
+        EditButton("button9", function(){ResetButtons();
+            choosePartAttack(Player.equips.PDranged,WeaponMap.get(Player.equips.PDranged).attack(),WeaponMap.get(Player.equips.PDranged).attackdescription)
+        },Player.equips.PDranged, "Dummy Hovertext");
     }
     if(Player.equips.assaultranged!=""){
-        EditButton("button11", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.assaultranged).attack())},Player.equips.assaultranged, "Dummy Hovertext");
+        EditButton("button10", function(){ResetButtons();
+            choosePartAttack(Player.equips.assaultranged,WeaponMap.get(Player.equips.assaultranged).attack(),WeaponMap.get(Player.equips.assaultranged).attackdescription)
+        },Player.equips.assaultranged, "Dummy Hovertext");
     }
     if(Player.equips.heavyranged!=""){
-        EditButton("button12", function(){ResetButtons();TestAttackFunc(WeaponMap.get(Player.equips.heavyranged).attack())},Player.equips.heavyranged, "Dummy Hovertext");
+        EditButton("button11", function(){ResetButtons();
+            choosePartAttack(Player.equips.heavyranged,WeaponMap.get(Player.equips.heavyranged).attack(),WeaponMap.get(Player.equips.heavyranged).attackdescription)
+        },Player.equips.heavyranged, "Dummy Hovertext");
     }
     EditButton("button21", function(){ResetButtons();PlayerTurn()}, "Back", "")
 }
 
-function choosePartAttack(aa, output){
+function chooseTechnique(weapon){
+    buttonindex=0;
+    for(let [key, value] of Object.entries(weapon.technique)){
+        buttonindex+=1;
+        EditButton("button"+buttonindex, function(){
+            ResetButtons();
+            FlagMap.set("Technique"+weapon.type, value.name)
+            AttackWeaponChoice();
+        }, value.displayname, value.description)
+        }
+}
+
+function choosePartAttack(weapon, aa, output){
     buttonindex=0;
     for(let [key, value] of Object.entries(Opponent.areas)){
         buttonindex+=1;
@@ -106,6 +175,7 @@ function choosePartAttack(aa, output){
                 WriteToMainWindow(output(aa[0], 0, 0, aa[2], value.displayname));
             }EnemyTurn();}, value.displayname, "")
         }
+        EditButton("button20", function(){chooseTechnique(WeaponMap.get(weapon))}, "Switch Techniques", "")
         EditButton("button21", function(){ResetButtons();PlayerTurn()}, "Back", "")
 }
 
@@ -159,6 +229,7 @@ function CreateEnemyStatBlock(){
 }
 
 function BeginFight(Oppo){
+TimeAddSec(1)
 TrueReset();
 Opponent = EnemyMap.get(Oppo)
 Opponent.HPcur = Opponent.HPmax
@@ -178,18 +249,12 @@ function PlayerTurn(){
     EditButton("button2", "TestTease", "Tease", "")
 }
 function EnemyTurn(){
-    if(Opponent.HPcur <= 0){
-        Opponent.ExitEvent(1);
-    }else if(Opponent.LPcur >= Opponent.LPmax){
-        Opponent.ExitEvent(2);
-    }else if(Player.HPcur <= 0){
-        Opponent.ExitEvent(-1);
-    }else if(Player.LPcur >= Player.LPMax){
-        Opponent.ExitEvent(-2);
-    }else{
-        Opponent.attackFunction()
-        PlayerTurn()
-    }
+    TimeAddSec(1)
+    if(Opponent.HPcur <= 0){Opponent.ExitEvent(1);}
+    else if(Opponent.LPcur >= Opponent.LPmax){Opponent.ExitEvent(2);}
+    else if(Player.HPcur <= 0){Opponent.ExitEvent(-1);}
+    else if(Player.LPcur >= Player.LPmax){Opponent.ExitEvent(-2);}
+    else{Opponent.attackFunction();PlayerTurn()}
 }
 
 function gnathuntinfunc(){if(Math.random()>=0){BeginFight("Aggressive Gnat")}else{EraseMainWindow();WriteToMainWindow("Damn, no gnats around to clap your cheeks.")}}
@@ -225,8 +290,6 @@ function FemVMascFacial(score){
         }
 
 }
-
-function test(){return "<br />"}
 
 function PlayerBodyDescription(){
 
